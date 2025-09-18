@@ -1,5 +1,6 @@
 import random
 import os
+from math import inf
 
 print('Bienvenido al juego del Gato y el Raton')
 
@@ -49,6 +50,7 @@ direcciones_raton=[
      (-1,0),(1,0),(0,-1),(0,1),   #movimientos normales 
      (-1,-1),(-1,1),(1,-1),(1,1)  #movimientos diagonales
      ]
+
 def movimiento_aleatorio(tablero,posicion_actual,simbolo2,lista_direcciones):
 
     tablero_dimension_fila=len(tablero)
@@ -62,6 +64,7 @@ def movimiento_aleatorio(tablero,posicion_actual,simbolo2,lista_direcciones):
             posicion_original_fila, posicion_original_columna=posicion_actual
 
             tablero[posicion_original_fila][posicion_original_columna]='.'
+        
 
             while True:
                 nueva_direccion=random.choice(lista_direcciones)
@@ -89,8 +92,23 @@ movimientos_random=3
 for _ in range(movimientos_random):
         
         posicion_raton = movimiento_aleatorio(mapa_de_juego,posicion_raton,'🐀',direcciones_raton)
-        
+
         posicion_gato=movimiento_aleatorio(mapa_de_juego,posicion_gato,'😼',direcciones_gato)
+
+# Distancia Manhattan
+
+def evaluar_estado(pos_gato, pos_raton):
+     distancia = abs(pos_gato[0] - pos_raton[0]) + abs(pos_gato[1] - pos_raton[1])
+     return -distancia
+
+#algoritmo minimax
+def minimax(posi_gato, posi_raton, profundidad, es_turno_gato, max_profundidad):
+     #Caso base: profundidad 0 o si el gato atrapo al raton 
+     if profundidad == max_profundidad or posi_gato == posi_raton:
+          return evaluar_estado(posi_gato, posi_raton), posi_gato
+
+
+
 
 
 
